@@ -10,23 +10,37 @@ type vector = coord2D
 type angle = float
 
 let translate (v : vector) (p : point) : point =
-  failwith "À compléter"
+    {x = p.x + v.x ; y = p.y + v.y}
 
 let rad_of_deg (a : angle) : angle =
-  failwith "À compléter"
+  a *. (Float.pi/.180.0)
 
 let deg_of_rad (a : angle) : angle =
-  failwith "À compléter"
+  a *. (180.0/.Float.pi)
 
 let rotate (c : point) (alpha : angle) (p : point) : point =
-  failwith "À compléter"
+  let alpha_rad = rad_of_deg alpha in
+  let fact1 = p.x -. c.x in
+  let fact2 = p.y -. c.y in
+  let resCos = cos alpha_rad in 
+  let resSin = sin alpha_rad in
+  {x = c.x +. fact1 *. resCos -. fact2 *. resSin; 
+  y = c.y +. fact1 *. resSin +. fact2 *. resCos }
+  
+
+
+
   
 type transformation =
   Translate of vector
 | Rotate of point * angle
 
 let transform (t : transformation) (p : point) : point =
-  failwith "À compléter"
+  match t with
+  | Translate v -> Translate 
+  | Rotate (pointAct, alpha) -> rotate pointAct alpha p 
+  
+
 
 type rectangle = {
     x_min : float;
