@@ -1,0 +1,10 @@
+*.opam
+*.opam.locked
+_opam/
+/.opam/
+/._opam/
+_build/
+*.merlin
+*.tmp
+.vscode/
+*.log
