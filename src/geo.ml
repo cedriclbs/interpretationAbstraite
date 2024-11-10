@@ -10,7 +10,7 @@ type vector = coord2D
 type angle = float
 
 let translate (v : vector) (p : point) : point =
-    {x = p.x + v.x ; y = p.y + v.y}
+    {x = p.x +. v.x ; y = p.y +. v.y}
 
 let rad_of_deg (a : angle) : angle =
   a *. (Float.pi/.180.0)
@@ -30,14 +30,13 @@ let rotate (c : point) (alpha : angle) (p : point) : point =
 
 
 
-  
 type transformation =
   Translate of vector
 | Rotate of point * angle
 
 let transform (t : transformation) (p : point) : point =
   match t with
-  | Translate v -> Translate 
+  | Translate v -> translate v p
   | Rotate (pointAct, alpha) -> rotate pointAct alpha p 
   
 
@@ -50,10 +49,20 @@ type rectangle = {
   }
 
 let in_rectangle (r : rectangle) (p : point) : bool =
-  failwith "À compléter"
+  p.x >= r.x_min && p.x <= r.x_max && p.y >= r.y_min && p.y <= r.y_max
+
+
 
 let corners (r :rectangle) : point list =
-  failwith "À compléter"
+   [
+    {x = r.x_min ; y = r.y_min};
+    {x = r.x_min ; y = r.y_max};
+    {x = r.x_max; y = r.y_min};
+    {x = r.x_max; y = r.y_max}
+   ]
+  
+
+
   
 let rectangle_of_list (pl : point list) : rectangle = 
   failwith "À compléter"
