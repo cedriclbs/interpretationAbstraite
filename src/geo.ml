@@ -61,8 +61,5 @@ let corners (r :rectangle) : point list =
     {x = r.x_max; y = r.y_max}
    ]
   
-
-
-  
 let rectangle_of_list (pl : point list) : rectangle = 
   failwith "À compléter"
