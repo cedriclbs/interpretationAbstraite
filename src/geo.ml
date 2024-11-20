@@ -62,4 +62,11 @@ let corners (r :rectangle) : point list =
    ]
   
 let rectangle_of_list (pl : point list) : rectangle = 
-  failwith "À compléter"
+  let x = List.map (fun p -> p.x) pl in
+  let y = List.map (fun p -> p.y) pl in
+  {
+    x_min = List.fold_left min (List.hd x) x;
+    x_max = List.fold_left max (List.hd x) x;
+    y_min = List.fold_left min (List.hd y) y;
+    y_max = List.fold_left max (List.hd y) y;
+  }
