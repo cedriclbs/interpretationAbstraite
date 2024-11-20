@@ -69,7 +69,8 @@ let corners (r :rectangle) : point list =
     {x = r.x_max; y = r.y_min};
     {x = r.x_max; y = r.y_max}
    ]
-  
+   
+(*Renvoie le plus petit rectangle contenant tous les points de la liste.*)  
 let rectangle_of_list (pl : point list) : rectangle = 
   let x = List.map (fun p -> p.x) pl in
   let y = List.map (fun p -> p.y) pl in

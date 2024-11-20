@@ -8,6 +8,7 @@ type instruction =
 | Either of program * program 
 and program = instruction list
 
+(* Fonction qui vérifie si un programme est déterministe *)
 let rec is_deterministic (prog : program) : bool =
   match prog with
   | [] -> true
@@ -15,6 +16,7 @@ let rec is_deterministic (prog : program) : bool =
   | Repeat (_, p) :: rest -> is_deterministic p && is_deterministic rest
   | Either (_, _) :: _ -> false
 
+(* Fonction qui déplie les instructions Repeat d'un programme *)  
 let rec unfold_repeat (prog : program) : program =
   match prog with
   | [] -> []
@@ -27,6 +29,7 @@ let rec unfold_repeat (prog : program) : program =
     repeat_aux n (unfold_repeat p) @ unfold_repeat rest
   | Either (_, _) :: _ -> failwith "Le programme n'est pas déterministe"
 
+(* Fonction qui génère la liste des positions visitées par un robot *)
 let run_det (prog : program) (p : point) : point list =
   let rec aux current_pos acc prog =
     match prog with
@@ -38,6 +41,7 @@ let run_det (prog : program) (p : point) : point list =
   in
  List.rev (aux p [p] (unfold_repeat prog))
 
+(* Fonction qui vérifie si le robot termine son trajet dans la cible à la fin de l'exécution du programme *)
 let target_reached_det (prog : program) (p : point) (target : rectangle) : bool =
   match List.rev (run_det prog p) with
   | [] -> false 
