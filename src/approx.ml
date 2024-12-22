@@ -12,7 +12,6 @@ let sample (rect : rectangle) : point =
   
 
 
-
 (* Fonction renvoyant l’image d’un rectangle par la transformation donnée en argument*)
 let transform_rect (t : transformation) (r : rectangle) : rectangle =
   match t with 
@@ -25,7 +24,6 @@ let transform_rect (t : transformation) (r : rectangle) : rectangle =
   | Rotate (c, alpha) -> 
     let corners = List.map (rotate c alpha) (corners r) in 
     rectangle_of_list corners
-
 
 
 
@@ -62,12 +60,10 @@ let run_rect (prog : program) (r : rectangle) : rectangle list =
 
 
 
-
 (* Fonction booléene qui renvoie true si r est contenu dans t, false sinon. *)
 let inclusion (r : rectangle) (t : rectangle) : bool =
   r.x_min >= t.x_min && r.x_max <= t.x_max && r.y_min >= t.y_min && r.y_max <= t.y_max
   
-
 
 
 
@@ -76,13 +72,33 @@ let target_reached_rect (prog : program) (r : rectangle) (target : rectangle) : 
   let adap = run_rect prog r in
   List.for_all (fun aux -> inclusion aux target) adap
 
-  
 
 
 
-  
-let run_polymorphe (transform : transformation -> 'a -> 'a) (prog : program) (i : 'a) : 'a list =
-  failwith "À compléter"
+(* Fonction qui renvoie la liste des états successifs du robot pour une des exécutions possibles du programme donné en partant de l'état initial. *)
+let run_polymorphe (transformer : transformation -> 'a -> 'a) (prog : program) (init : 'a) : 'a list =
+  let rec aux (current_state : 'a) (acc : 'a list) (prog : program) : 'a list =
+    match prog with
+    | [] -> List.rev acc
+    | Move t :: rest ->
+        let new_state = transformer t current_state in
+        aux new_state (new_state :: acc) rest
+    | Repeat (n, p) :: rest ->
+        let rec repeat_aux n current_state acc =
+          if n <= 0 then acc
+          else
+            let new_states = aux current_state [] p in
+            match new_states with
+            | [] -> acc  
+            | _ -> repeat_aux (n - 1) (List.hd (List.rev new_states)) (List.rev_append new_states acc)
+        in
+        repeat_aux n current_state acc |> fun acc_new -> aux current_state acc_new rest
+    | Either (p1, p2) :: rest ->
+        let choice = Random.bool () in
+        let new_prog = if choice then unfold_repeat p1 @ rest else unfold_repeat p2 @ rest in
+        aux current_state acc new_prog
+  in
+  aux init [init] (unfold_repeat prog)
 
 let rec over_approximate (prog : program) (r : rectangle) : rectangle =
   failwith "À compléter"
