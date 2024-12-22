@@ -100,8 +100,33 @@ let run_polymorphe (transformer : transformation -> 'a -> 'a) (prog : program) (
   in
   aux init [init] (unfold_repeat prog)
 
-let rec over_approximate (prog : program) (r : rectangle) : rectangle =
-  failwith "À compléter"
+
+
+
+(* Fonction qui renvoye la sur-approximation des états atteignables par un robot *)
+let rec over_approximate (prog : program) (init_rect : rectangle) : rectangle =
+  let rec aux prog current_rect =
+    match prog with
+    | [] -> current_rect
+    | Move t :: rest ->
+        let new_rect = transform_rect t current_rect in
+        aux rest new_rect
+    | Repeat (n, sub_prog) :: rest ->
+        let rec repeat_rect n rect =
+          if n <= 0 then rect
+          else
+            let repeated_rect = aux sub_prog rect in
+            repeat_rect (n - 1) repeated_rect
+        in
+        let repeated_final_rect = repeat_rect n current_rect in
+        aux rest repeated_final_rect
+    | Either (p1, p2) :: rest ->
+        let rect1 = aux p1 current_rect in
+        let rect2 = aux p2 current_rect in
+        let combined_rect = rectangle_of_list (corners rect1 @ corners rect2) in
+        aux rest combined_rect
+  in
+  aux prog init_rect
 
 let feasible_target_reached (prog : program) (r : rectangle) (target : rectangle) : bool =
   failwith "À compléter"
