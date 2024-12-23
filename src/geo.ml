@@ -30,10 +30,6 @@ let rotate (c : point) (alpha : angle) (p : point) : point =
   let resSin = sin alpha_rad in
   {x = c.x +. fact1 *. resCos -. fact2 *. resSin; 
   y = c.y +. fact1 *. resSin +. fact2 *. resCos }
-  
-
-
-
 
 type transformation =
   Translate of vector
@@ -45,10 +41,6 @@ let transform (t : transformation) (p : point) : point =
   | Translate v -> translate v p
   | Rotate (pointAct, alpha) -> rotate pointAct alpha p 
   
-
-
-
-
 
 type rectangle = {
     x_min : float;
