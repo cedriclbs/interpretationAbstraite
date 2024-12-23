@@ -128,5 +128,10 @@ let rec over_approximate (prog : program) (init_rect : rectangle) : rectangle =
   in
   aux prog init_rect
 
-let feasible_target_reached (prog : program) (r : rectangle) (target : rectangle) : bool =
-  failwith "À compléter"
+
+
+
+(* Fonction vérifiant si la sur-approximation des états finaux atteignables par le robot est contenue dans la zone cible *)
+let feasible_target_reached (prog : program) (init : rectangle) (target : rectangle) : bool =
+  let approximated_final_rect = over_approximate prog init in
+  inclusion approximated_final_rect target
