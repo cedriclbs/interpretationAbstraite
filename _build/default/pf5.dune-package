@@ -1,18 +1,25 @@
 (lang dune 3.16)
 (name pf5)
-(sections (lib .) (libexec .) (doc ../../doc/pf5))
+(sections (lib .) (libexec .) (bin ../../bin) (doc ../../doc/pf5))
 (files
  (lib
   (META
    approx.ml
    approx.mli
+   argument.ml
+   argument.mli
+   config.ml
+   config.mli
    display.ml
+   display.mli
    dune-package
    geo.ml
    geo.mli
    interp.ml
    interp.mli
    opam
+   options.ml
+   options.mli
    pf5.a
    pf5.cma
    pf5.cmi
@@ -24,8 +31,17 @@
    pf5__Approx.cmt
    pf5__Approx.cmti
    pf5__Approx.cmx
+   pf5__Argument.cmi
+   pf5__Argument.cmt
+   pf5__Argument.cmti
+   pf5__Argument.cmx
+   pf5__Config.cmi
+   pf5__Config.cmt
+   pf5__Config.cmti
+   pf5__Config.cmx
    pf5__Display.cmi
    pf5__Display.cmt
+   pf5__Display.cmti
    pf5__Display.cmx
    pf5__Geo.cmi
    pf5__Geo.cmt
@@ -34,8 +50,19 @@
    pf5__Interp.cmi
    pf5__Interp.cmt
    pf5__Interp.cmti
-   pf5__Interp.cmx))
+   pf5__Interp.cmx
+   pf5__Options.cmi
+   pf5__Options.cmt
+   pf5__Options.cmti
+   pf5__Options.cmx
+   pf5__Programs.cmi
+   pf5__Programs.cmt
+   pf5__Programs.cmti
+   pf5__Programs.cmx
+   programs.ml
+   programs.mli))
  (libexec (pf5.cmxs))
+ (bin (interp))
  (doc (README.md)))
 (library
  (name pf5)
@@ -61,9 +88,23 @@
       (visibility public)
       (source (path Approx) (intf (path approx.mli)) (impl (path approx.ml))))
      (module
+      (obj_name pf5__Argument)
+      (visibility public)
+      (source
+       (path Argument)
+       (intf (path argument.mli))
+       (impl (path argument.ml))))
+     (module
+      (obj_name pf5__Config)
+      (visibility public)
+      (source (path Config) (intf (path config.mli)) (impl (path config.ml))))
+     (module
       (obj_name pf5__Display)
       (visibility public)
-      (source (path Display) (impl (path display.ml))))
+      (source
+       (path Display)
+       (intf (path display.mli))
+       (impl (path display.ml))))
      (module
       (obj_name pf5__Geo)
       (visibility public)
@@ -71,5 +112,19 @@
      (module
       (obj_name pf5__Interp)
       (visibility public)
-      (source (path Interp) (intf (path interp.mli)) (impl (path interp.ml))))))
+      (source (path Interp) (intf (path interp.mli)) (impl (path interp.ml))))
+     (module
+      (obj_name pf5__Options)
+      (visibility public)
+      (source
+       (path Options)
+       (intf (path options.mli))
+       (impl (path options.ml))))
+     (module
+      (obj_name pf5__Programs)
+      (visibility public)
+      (source
+       (path Programs)
+       (intf (path programs.mli))
+       (impl (path programs.ml))))))
    (wrapped true))))
