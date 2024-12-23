@@ -3,6 +3,12 @@
 (** @canonical Pf5.Approx *)
 module Approx = Pf5__Approx
 
+(** @canonical Pf5.Argument *)
+module Argument = Pf5__Argument
+
+(** @canonical Pf5.Config *)
+module Config = Pf5__Config
+
 (** @canonical Pf5.Display *)
 module Display = Pf5__Display
 
@@ -11,3 +17,9 @@ module Geo = Pf5__Geo
 
 (** @canonical Pf5.Interp *)
 module Interp = Pf5__Interp
+
+(** @canonical Pf5.Options *)
+module Options = Pf5__Options
+
+(** @canonical Pf5.Programs *)
+module Programs = Pf5__Programs

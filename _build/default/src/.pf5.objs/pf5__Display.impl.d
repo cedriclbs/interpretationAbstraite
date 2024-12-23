@@ -1,1 +1,1 @@
-src/display.ml: Graphics
+src/display.ml: Config Geo Graphics Printf
